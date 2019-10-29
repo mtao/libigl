@@ -126,13 +126,21 @@ IGL_INLINE void igl::triangle_triangle_adjacency(
     for(int k = 0;k<3;k++)
     {
       int vi = F(f,k), vj = F(f,(k+1)%3);
+      if(vi > vj)
+      {
+        std::swap(vi,vj);
+      }
       int fn = TT(f,k);
       if(fn >= 0)
       {
         for(int kn = 0;kn<3;kn++)
         {
           int vin = F(fn,kn), vjn = F(fn,(kn+1)%3);
-          if(vi == vjn && vin == vj)
+          if(vin > vjn)
+          {
+            std::swap(vin,vjn);
+          }
+          if((vi == vin && vin == vjn))
           {
             TTi(f,k) = kn;
             break;

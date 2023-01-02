@@ -22,9 +22,9 @@ namespace igl {
     char *p_end{nullptr};
     size_t size;
   
-    FileMemoryBuffer(char const *first_elem, size_t size)
-      : p_start(const_cast<char *>(first_elem)), p_end(p_start + size),
-        size(size) 
+    FileMemoryBuffer(char const *first_elem, size_t size_)
+      : p_start(const_cast<char *>(first_elem)), p_end(p_start + size_),
+        size(size_) 
     {
       setg(p_start, p_start, p_end);
     }
@@ -32,7 +32,7 @@ namespace igl {
     pos_type seekoff(
       off_type off, 
       std::ios_base::seekdir dir,
-      std::ios_base::openmode which) override 
+      std::ios_base::openmode /*which*/) override 
     {
       if (dir == std::ios_base::cur) 
       {

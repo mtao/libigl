@@ -132,7 +132,7 @@ inline bool igl::parallel_for(
 #else
   const size_t nthreads = igl::default_num_threads();
 #endif
-  if(loop_size<min_parallel || nthreads<=1)
+  if(size_t(loop_size)<min_parallel || nthreads<=1)
   {
     // serial
     prep_func(1);

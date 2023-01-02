@@ -79,14 +79,13 @@ IGL_INLINE bool read_stl_ascii(std::istream &input,
                                std::vector<std::array<TypeV, 3>> &V,
                                std::vector<std::array<TypeF, 3>> &F,
                                std::vector<std::array<TypeN, 3>> &N) {
-  constexpr size_t LINE_SIZE = 256;
-  bool success = true;
 
   if (!input) {
     throw std::runtime_error("Failed to open file");
   }
 
   {
+      constexpr size_t LINE_SIZE = 256;
       char line[LINE_SIZE];
       // skip header line.
       input.getline(line, LINE_SIZE);
@@ -176,6 +175,8 @@ IGL_INLINE bool read_stl_ascii(std::istream &input,
     return true;
   };
 
+
+  bool success = true;
   while (!input.eof()) {
     success = parse_ascii_facet(input);
     if (!success) {

@@ -80,15 +80,17 @@ IGL_INLINE bool read_stl_ascii(std::istream &input,
                                std::vector<std::array<TypeF, 3>> &F,
                                std::vector<std::array<TypeN, 3>> &N) {
   constexpr size_t LINE_SIZE = 256;
-  char line[LINE_SIZE];
   bool success = true;
 
   if (!input) {
     throw std::runtime_error("Failed to open file");
   }
 
-  // skip header line.
-  input.getline(line, LINE_SIZE);
+  {
+      char line[LINE_SIZE];
+      // skip header line.
+      input.getline(line, LINE_SIZE);
+  }
 
   auto parse_ascii_normal = [&N](const char *line) {
     double x, y, z;

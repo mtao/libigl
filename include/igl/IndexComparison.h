@@ -36,7 +36,7 @@ namespace igl{
   // For use with functions like std::sort
   template<class T> struct IndexVectorLessThan
   {
-    IndexVectorLessThan(const T & vec) : vec ( vec) {}
+    IndexVectorLessThan(const T & vec_) : vec ( vec_) {}
     bool operator()(const size_t a, const size_t b) const
     {
       return vec(a) < vec(b);

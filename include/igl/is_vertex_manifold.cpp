@@ -29,16 +29,8 @@ IGL_INLINE bool igl::is_vertex_manifold(
   vector<vector<vector<FIndex > > > TT;
   vector<vector<vector<FIndex > > > TTi;
   triangle_triangle_adjacency(F,TT,TTi);
-
   vector<vector<FIndex > > V2F;
-  {
-      const Index n = F.maxCoeff()+1;
-      vector<vector<FIndex > > _1;
-      vertex_triangle_adjacency(n,F,V2F,_1);
 
-      // Unreferenced vertices are considered non-manifold
-      B.setConstant(n,1,false);
-  }
 
   const auto & check_vertex = [&](const Index v)->bool
   {
@@ -72,7 +64,7 @@ IGL_INLINE bool igl::is_vertex_manifold(
         for(const auto & n : c)
         {
           bool contains_v = false;
-          for(Index nc = 0;nc<F.cols();nc++)
+          for(Index nc = 0;nc<Index(F.cols());nc++)
           {
             if(F(n,nc) == v)
             {
@@ -89,6 +81,13 @@ IGL_INLINE bool igl::is_vertex_manifold(
     }
     return one_ring_size == (FIndex) seen.size();
   };
+
+  const Index n = F.maxCoeff()+1;
+  vector<vector<FIndex > > _1;
+  vertex_triangle_adjacency(n,F,V2F,_1);
+
+  // Unreferenced vertices are considered non-manifold
+  B.setConstant(n,1,false);
 
   // Loop over all vertices touched by F
   bool all = true;

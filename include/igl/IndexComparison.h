@@ -14,7 +14,7 @@ namespace igl{
   // For use with functions like std::sort
   template<class T> struct IndexLessThan
   {
-    IndexLessThan(const T arr) : arr(arr) {}
+    IndexLessThan(const T arr_) : arr(arr_) {}
     bool operator()(const size_t a, const size_t b) const
     {
       return arr[a] < arr[b];
@@ -25,7 +25,7 @@ namespace igl{
   // For use with functions like std::unique
   template<class T> struct IndexEquals
   {
-    IndexEquals(const T arr) : arr(arr) {}
+    IndexEquals(const T arr_) : arr(arr_) {}
     bool operator()(const size_t a, const size_t b) const
     {
       return arr[a] == arr[b];

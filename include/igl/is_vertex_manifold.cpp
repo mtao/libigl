@@ -26,13 +26,19 @@ IGL_INLINE bool igl::is_vertex_manifold(
   typedef typename DerivedF::Scalar Index;
   typedef typename DerivedF::Index FIndex;
   const FIndex m = F.rows();
-  const Index n = F.maxCoeff()+1;
   vector<vector<vector<FIndex > > > TT;
   vector<vector<vector<FIndex > > > TTi;
   triangle_triangle_adjacency(F,TT,TTi);
 
-  vector<vector<FIndex > > V2F,_1;
-  vertex_triangle_adjacency(n,F,V2F,_1);
+  vector<vector<FIndex > > V2F;
+  {
+      const Index n = F.maxCoeff()+1;
+      vector<vector<FIndex > > _1;
+      vertex_triangle_adjacency(n,F,V2F,_1);
+
+      // Unreferenced vertices are considered non-manifold
+      B.setConstant(n,1,false);
+  }
 
   const auto & check_vertex = [&](const Index v)->bool
   {
@@ -84,8 +90,6 @@ IGL_INLINE bool igl::is_vertex_manifold(
     return one_ring_size == (FIndex) seen.size();
   };
 
-  // Unreferenced vertices are considered non-manifold
-  B.setConstant(n,1,false);
   // Loop over all vertices touched by F
   bool all = true;
   for(Index v = 0;v<n;v++)

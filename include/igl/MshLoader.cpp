@@ -167,7 +167,7 @@ IGL_INLINE void igl::MshLoader::parse_elements(std::ifstream& fin) {
             nodes_per_element = num_nodes_per_elem_type(elem_type);
 
             // store node info
-            for (size_t i=0; i<num_elems; i++) {
+            for (int i=0; i<num_elems; i++) {
                 int elem_idx;
 
                 // all elements in the segment share the same elem_type and number of nodes per element
@@ -179,18 +179,18 @@ IGL_INLINE void igl::MshLoader::parse_elements(std::ifstream& fin) {
                 m_elements_ids.push_back(elem_idx);
 
                 // read first two tags
-                for (size_t j=0; j<num_tags; j++) {
+                for (int j=0; j<num_tags; j++) {
                     int tag;
                     fin.read((char*)&tag, sizeof(int));
                     if(j<2) m_elements_tags[j].push_back(tag);
                 }
 
-                for (size_t j=num_tags; j<2; j++) 
+                for (int j=num_tags; j<2; j++) 
                     m_elements_tags[j].push_back(-1); // fill up tags if less then 2
 
                 m_elements_nodes_idx.push_back(m_elements.size());
                 // Element values.
-                for (size_t j=0; j<nodes_per_element; j++) {
+                for (int j=0; j<nodes_per_element; j++) {
                     int idx;
                     fin.read((char*)&idx, sizeof(int));
                     
@@ -206,12 +206,12 @@ IGL_INLINE void igl::MshLoader::parse_elements(std::ifstream& fin) {
             fin >> elem_num >> elem_type >> num_tags;
 
             // read tags.
-            for (size_t j=0; j<num_tags; j++) {
+            for (int j=0; j<num_tags; j++) {
                 int tag;
                 fin >> tag;
                 if(j<2) m_elements_tags[j].push_back(tag);
             }
-            for (size_t j=num_tags; j<2; j++) 
+            for (int j=num_tags; j<2; j++) 
                 m_elements_tags[j].push_back(-1); // fill up tags if less then 2
             
             nodes_per_element = num_nodes_per_elem_type(elem_type);
@@ -222,7 +222,7 @@ IGL_INLINE void igl::MshLoader::parse_elements(std::ifstream& fin) {
             m_elements_ids.push_back(elem_num);
             m_elements_nodes_idx.push_back(m_elements.size());
             // Parse node idx.
-            for (size_t j=0; j<nodes_per_element; j++) {
+            for (int j=0; j<nodes_per_element; j++) {
                 int idx;
                 fin >> idx;
                 m_elements.push_back(idx-1); // msh index starts from 1.
@@ -281,7 +281,7 @@ IGL_INLINE void igl::MshLoader::parse_node_field( std::ifstream& fin ) {
         char* data = new char[num_bytes];
         igl::_msh_eat_white_space(fin);
         fin.read(data, num_bytes);
-        for (size_t i=0; i<num_entries; i++) {
+        for (int i=0; i<num_entries; i++) {
 			int node_idx;
 			memcpy(&node_idx,&data[i*(4+num_components*m_data_size)],4);
 			
@@ -296,10 +296,10 @@ IGL_INLINE void igl::MshLoader::parse_node_field( std::ifstream& fin ) {
         delete [] data;
     } else {
         int node_idx;
-        for (size_t i=0; i<num_entries; i++) {
+        for (int i=0; i<num_entries; i++) {
             fin >> node_idx;
             node_idx -= 1;
-            for (size_t j=0; j<num_components; j++) {
+            for (int j=0; j<num_components; j++) {
                 fin >> field[node_idx*num_components+j];
             }
         }
@@ -365,10 +365,10 @@ IGL_INLINE void igl::MshLoader::parse_element_field(std::ifstream& fin) {
         delete [] data;
     } else {
         int elem_idx;
-        for (size_t i=0; i<num_entries; i++) {
+        for (int i=0; i<num_entries; i++) {
             fin >> elem_idx;
             elem_idx -= 1;
-            for (size_t j=0; j<num_components; j++) {
+            for (int j=0; j<num_components; j++) {
                 fin >> field[elem_idx*num_components+j];
             }
         }

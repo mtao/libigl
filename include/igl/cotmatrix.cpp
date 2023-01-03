@@ -164,9 +164,9 @@ IGL_INLINE void igl::cotmatrix(
     // Massmatrix entried
     VectorXS Mp;
     {
-      Eigen::SparseMatrix<Scalar> M;
-      igl::massmatrix(X,F,igl::MASSMATRIX_TYPE_DEFAULT,M);
-      Mp = M.diagonal();
+      Eigen::SparseMatrix<Scalar> mass_matrix;
+      igl::massmatrix(X,F,igl::MASSMATRIX_TYPE_DEFAULT,mass_matrix);
+      Mp = mass_matrix.diagonal();
     }
     // Scatter into fine Laplacian and mass matrices
     const auto J = [&n,&np,&p,&I,&C](Index i)->Index{return i==np?n+p:I(C(p)+i);};
